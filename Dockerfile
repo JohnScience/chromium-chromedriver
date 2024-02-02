@@ -19,9 +19,6 @@ RUN mv /webdriver-downloader/target/$(cat /target.txt) /webdriver-downloader/tar
 # Use a slim image for running the application
 FROM alpine as runtime
 
-ARG PORT=9515
-ENV PORT=$PORT
-
 RUN apk add gcompat chromium
 RUN apk add curl
 
@@ -31,10 +28,11 @@ COPY --from=builder /webdriver-downloader/target/arch-unknown-linux-musl/release
 
 RUN webdriver-downloader --skip-verify --type chrome --driver /bin/chromedriver
 
-EXPOSE $PORT
+EXPOSE 9515
 
-RUN echo -n 'chromedriver --verbose --port ' > command.txt && \
-    echo $PORT >> command.txt
+#RUN echo -n 'chromedriver --verbose --port ' > command.txt && \
+#    echo $PORT >> command.txt
 
-ENTRYPOINT [ "sh", "-c", "cat command.txt" ]
+ENTRYPOINT [ "sh", "-c", "chromedriver --verbose" ]
+# ENTRYPOINT [ "sh", "-c", "cat command.txt" ]
 # ENTRYPOINT [ "sh", "-c", "cat command.txt | sh" ]
