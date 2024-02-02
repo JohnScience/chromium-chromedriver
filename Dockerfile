@@ -33,7 +33,8 @@ RUN webdriver-downloader --skip-verify --type chrome --driver /bin/chromedriver
 
 EXPOSE $PORT
 
-# ENTRYPOINT [ "sh", "-c", "echo ${ARCH}" ]
-ENTRYPOINT [ "sh", "-c", "chromedriver --verbose --port $PORT" ]
-# ENTRYPOINT [ "sh", "-c", "chromedriver --verbose" ]
-# ENTRYPOINT [ "sh", "-c", "echo $PORT" ]
+RUN echo -n 'chromedriver --verbose --port ' > command.txt && \
+    echo $PORT >> command.txt
+
+ENTRYPOINT [ "sh", "-c", "cat command.txt" ]
+# ENTRYPOINT [ "sh", "-c", "cat command.txt | sh" ]
