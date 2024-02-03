@@ -22,17 +22,11 @@ FROM alpine as runtime
 RUN apk add gcompat chromium
 RUN apk add curl
 
-COPY --from=builder /arch.txt /arch.txt
-COPY --from=builder /target.txt /target.txt
 COPY --from=builder /webdriver-downloader/target/arch-unknown-linux-musl/release/webdriver-downloader /bin/webdriver-downloader
 
 RUN webdriver-downloader --skip-verify --type chrome --driver /bin/chromedriver
 
 EXPOSE 9515
 
-#RUN echo -n 'chromedriver --verbose --port ' > command.txt && \
-#    echo $PORT >> command.txt
-
-ENTRYPOINT [ "sh", "-c", "chromedriver --verbose" ]
-# ENTRYPOINT [ "sh", "-c", "cat command.txt" ]
-# ENTRYPOINT [ "sh", "-c", "cat command.txt | sh" ]
+# 172.17.0.1 is a bridge network gateway
+ENTRYPOINT [ "sh", "-c", "chromedriver --whitelisted-ips=172.17.0.1 --allowed-origins=*" ]
