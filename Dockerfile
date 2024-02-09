@@ -1,9 +1,8 @@
 FROM --platform=$BUILDPLATFORM tonistiigi/xx AS xx
 
-FROM --platform=$BUILDPLATFORM rust:latest as builder
+FROM --platform=$BUILDPLATFORM rust:alpine as builder
 COPY --from=xx / /
-RUN apt-get update && \
-    apt-get install -y clang lld musl-tools openssl git && \
+RUN apk add clang lld git && \
     rm -rf /var/lib/apt/lists/*
 ARG TARGETPLATFORM
 
