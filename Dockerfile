@@ -26,7 +26,9 @@ COPY --from=builder /webdriver-downloader/target/arch-unknown-linux-musl/release
 
 RUN webdriver-downloader --skip-verify --type chrome --driver /bin/chromedriver
 
-EXPOSE 9515
+ENV PORT=9515
+ENV WHITELISTED_IPS="172.17.0.1"
+ENV ALLOWED_ORIGINS="'*'"
 
 # 172.17.0.1 is a bridge network gateway
-ENTRYPOINT [ "sh", "-c", "chromedriver --whitelisted-ips=172.17.0.1 --allowed-origins=*" ]
+ENTRYPOINT [ "sh", "-c", "echo 'chromedriver --port=$PORT --whitelisted-ips=$WHITELISTED_IPS --allowed-origin=$ALLOWED_ORIGINS' | sh" ]
