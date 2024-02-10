@@ -14,5 +14,5 @@ jobs:
       - name: build the images
         run: |
           docker buildx build \
-          --tag your-username/multiarch-example:latest \
+          --tag demenevdmitrii1/chromium-chromedriver:latest \
           --platform linux/amd64,linux/arm64 .
