@@ -22,7 +22,7 @@ However, this image relies on [`webdriver-downloader`] for supporting the archit
 
 * `PORT` - the port to listen on (default: `9515`)
 * `WHITELISTED_IPS` - the list of IP addresses to allow to connect to the service (default: `172.17.0.1`, which is the default [bridge network gateway](https://docs.docker.com/network/network-tutorial-standalone/#use-the-default-bridge-network))
-* `ALLOWED_ORIGINS` - allowlist of request origins which are allowed to connect to ChromeDriver.
+* `ALLOWED_ORIGINS` - allowlist of request origins which are allowed to connect to ChromeDriver. The default is `'*'`. You may want to set it to a specific origin to make the service more secure.
 
 #### Examples
 
