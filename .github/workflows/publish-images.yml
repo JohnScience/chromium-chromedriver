@@ -1,0 +1,18 @@
+name: Publish Images to Docker Hub
+run-name: ${{ github.actor }} is publishing images to Docker Hub 🚀
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v2
+      - name: install buildx
+        id: buildx
+        uses: crazy-max/ghaction-docker-buildx@v1
+      - name: build the images
+        run: |
+          docker buildx build \
+          --tag your-username/multiarch-example:latest \
+          --platform linux/amd64,linux/arm64 .
